@@ -17,7 +17,7 @@ orchestrator = ControlTowerOrchestrator(environment)
 
 app = FastAPI(
     title="ResiliChain AI",
-    version="0.1.0",
+    version="0.2.0",
     description="Multi-agent autonomous retail supply-chain recovery control tower.",
 )
 
@@ -58,4 +58,3 @@ app.mount("/static", StaticFiles(directory=FRONTEND), name="static")
 @app.get("/", include_in_schema=False)
 def dashboard() -> FileResponse:
     return FileResponse(FRONTEND / "index.html")
-

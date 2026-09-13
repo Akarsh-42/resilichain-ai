@@ -17,20 +17,34 @@ ResiliChain AI is a starter implementation for Tech Zephyr 4.0's Autonomous Reta
 
 ## Quick start
 
-```bash
-python -m venv .venv
-source .venv/bin/activate  # Windows: .venv\Scripts\activate
-pip install -r requirements.txt
-uvicorn backend.app.main:app --reload --port 8080
+### Windows — easiest demo start
+
+Double-click `start_demo.bat`, or run:
+
+```powershell
+.\start_demo.bat
 ```
 
-Open `http://localhost:8080` and click **Run autonomous recovery**.
+Then open `http://127.0.0.1:8080`.
+
+### macOS / Linux
+
+```bash
+chmod +x start_demo.sh
+./start_demo.sh
+```
+
+Open `http://127.0.0.1:8080` and click **Run live recovery**. No API key is
+required for the included deterministic multi-agent demonstration.
 
 ### Docker
 
 ```bash
 docker compose up --build
 ```
+
+For the exact demo flow, troubleshooting, and Cloud Run deployment commands, see
+[`docs/DEMO_AND_DEPLOY.md`](docs/DEMO_AND_DEPLOY.md).
 
 ## API
 
@@ -57,7 +71,7 @@ collaborator invitation, branch, commit, pull-request, and merge workflow.
 
 ```text
 backend/app/       Digital twin, agents, orchestration and API
-frontend/          Premium control-tower dashboard starter
+frontend/          Premium control-tower operations dashboard
 tests/             Adaptation, constraint and persistence tests
 docs/              Product and architecture documentation
 .github/workflows/ Continuous integration

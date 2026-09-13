@@ -3,74 +3,198 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ResiliChain AI Control Tower</title>
+    <meta name="theme-color" content="#07110f" />
+    <title>ResiliChain AI | Autonomous Control Tower</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/static/styles.css" />
   </head>
   <body>
-    <div class="ambient ambient-one"></div>
-    <div class="ambient ambient-two"></div>
-    <header class="topbar">
-      <div class="brand"><span class="brand-mark">R</span><span>ResiliChain <b>AI</b></span></div>
-      <div class="status"><span class="pulse"></span> Digital twin online</div>
-    </header>
+    <div class="noise"></div>
+    <div class="orb orb-one"></div>
+    <div class="orb orb-two"></div>
 
-    <main>
-      <section class="hero">
-        <div>
-          <p class="eyebrow">AUTONOMOUS SUPPLY CHAIN CONTROL TOWER</p>
-          <h1>Recover from disruption<br /><span>before service breaks.</span></h1>
-          <p class="subhead">Five collaborating agents observe, decide, optimize, execute, verify and replan across a live simulated retail network.</p>
-        </div>
-        <div class="hero-actions">
-          <button id="reset" class="button secondary">Reset scenario</button>
-          <button id="recover" class="button primary">Run autonomous recovery</button>
-        </div>
-      </section>
+    <div class="app-shell">
+      <aside class="rail" aria-label="Product navigation">
+        <a class="rail-logo" href="#" aria-label="ResiliChain home">R</a>
+        <nav>
+          <button class="rail-item active" title="Control tower" aria-label="Control tower">
+            <svg viewBox="0 0 24 24"><path d="M4 13h6V4H4v9Zm0 7h6v-4H4v4Zm10 0h6v-9h-6v9Zm0-16v4h6V4h-6Z"/></svg>
+          </button>
+          <button class="rail-item" title="Network" aria-label="Network">
+            <svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="2.5"/><circle cx="19" cy="6" r="2.5"/><circle cx="19" cy="18" r="2.5"/><path d="m7.3 10.9 9.4-3.8M7.3 13.1l9.4 3.8"/></svg>
+          </button>
+          <button class="rail-item" title="Intelligence" aria-label="Intelligence">
+            <svg viewBox="0 0 24 24"><path d="M4 19V9m5 10V5m6 14v-7m5 7V3"/></svg>
+          </button>
+          <button class="rail-item" title="Audit log" aria-label="Audit log">
+            <svg viewBox="0 0 24 24"><path d="M6 3h12v18H6zM9 8h6m-6 4h6m-6 4h4"/></svg>
+          </button>
+        </nav>
+        <div class="rail-spacer"></div>
+        <div class="avatar" title="Akarsh Mohanty">AM</div>
+      </aside>
 
-      <section class="metrics">
-        <article class="metric"><span>Network status</span><strong id="network-status">Disrupted</strong><small>Live environment state</small></article>
-        <article class="metric"><span>Target service</span><strong>80 units</strong><small>SKU-AX9 within 24h</small></article>
-        <article class="metric"><span>Budget ceiling</span><strong>₹2,500</strong><small>Recovery constraint</small></article>
-        <article class="metric"><span>Carbon ceiling</span><strong>50 kg</strong><small>Sustainability constraint</small></article>
-      </section>
-
-      <section class="grid">
-        <article class="panel network-panel">
-          <div class="panel-title"><div><p>LIVE NETWORK</p><h2>Supply graph</h2></div><span class="badge danger">2 disruptions</span></div>
-          <div class="network">
-            <div class="route route-a blocked"></div>
-            <div class="route route-b"></div>
-            <div class="route route-c"></div>
-            <div class="node east"><span>East</span><small>Port closed</small></div>
-            <div class="node west"><span>West</span><small>120 available</small></div>
-            <div class="node south"><span>South</span><small>100 available</small></div>
-            <div class="node store"><span>Central</span><small>20 in stock</small></div>
+      <div class="surface">
+        <header class="topbar">
+          <div class="brand">
+            <span class="brand-word">ResiliChain</span><span class="brand-ai">AI</span>
+            <span class="product-divider"></span><span class="product-name">Control Tower</span>
           </div>
-          <div class="legend"><span><i class="ok"></i>Operational</span><span><i class="bad"></i>Disrupted</span><span><i class="target"></i>Target</span></div>
-        </article>
+          <div class="topbar-right">
+            <span class="environment"><i></i> DIGITAL TWIN ONLINE</span>
+            <span id="clock" class="clock">--:--:-- UTC</span>
+            <button id="export" class="icon-button" title="Export latest run" aria-label="Export latest run" disabled>
+              <svg viewBox="0 0 24 24"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 20h14"/></svg>
+            </button>
+          </div>
+        </header>
 
-        <article class="panel agent-panel">
-          <div class="panel-title"><div><p>MULTI-AGENT RUN</p><h2>Decision trace</h2></div><span id="run-state" class="badge">Waiting</span></div>
-          <div id="trace" class="trace"><div class="empty">Start a recovery run to watch the agents collaborate.</div></div>
-        </article>
-      </section>
+        <main>
+          <section class="page-head">
+            <div>
+              <div class="breadcrumbs"><span>OPERATIONS</span><b>/</b><span>RECOVERY COMMAND</span></div>
+              <h1>Autonomous recovery control</h1>
+              <p>Observe disruption, evaluate constraints, execute the best recovery action, and adapt to failure.</p>
+            </div>
+            <div class="head-actions">
+              <button id="reset" class="button ghost"><span>↻</span> Reset scenario</button>
+              <button id="recover" class="button primary"><span class="button-spark">✦</span> Run live recovery</button>
+            </div>
+          </section>
 
-      <section id="outcome" class="panel outcome hidden">
-        <div class="panel-title"><div><p>VERIFIED OUTCOME</p><h2>Recovery plan executed</h2></div><span class="badge success">Constraints passed</span></div>
-        <div class="outcome-grid">
-          <div><span>Selected route</span><strong id="route">—</strong></div>
-          <div><span>Recovery cost</span><strong id="cost">—</strong></div>
-          <div><span>Delivery time</span><strong id="time">—</strong></div>
-          <div><span>Carbon impact</span><strong id="carbon">—</strong></div>
-          <div><span>Planning attempts</span><strong id="attempts">—</strong></div>
-        </div>
-      </section>
-    </main>
+          <section class="incident-strip">
+            <div class="severity">P1</div>
+            <div class="incident-main">
+              <div class="incident-heading"><strong>East Port Closure</strong><span id="incident-count">1 active disruption</span></div>
+              <p>Flooding has closed the east-port road corridor. SKU-AX9 service level is at risk.</p>
+            </div>
+            <div class="incident-meta"><span>INCIDENT</span><strong>RC-2026-0913</strong></div>
+            <div class="incident-meta"><span>SLA REMAINING</span><strong id="sla">23:59:59</strong></div>
+            <div class="incident-meta"><span>RESPONSE</span><strong id="response-mode">Autonomous</strong></div>
+          </section>
 
+          <section class="metrics">
+            <article class="metric risk">
+              <div class="metric-top"><span>Network risk</span><i>CRITICAL</i></div>
+              <div class="metric-value"><strong id="risk-score">87</strong><small>/100</small></div>
+              <div class="meter"><b style="width:87%"></b></div>
+            </article>
+            <article class="metric">
+              <div class="metric-top"><span>Units at risk</span><em>SKU-AX9</em></div>
+              <div class="metric-value"><strong>80</strong><small>units</small></div>
+              <p>Central City Store · target 24h</p>
+            </article>
+            <article class="metric">
+              <div class="metric-top"><span>Recovery budget</span><em>HARD LIMIT</em></div>
+              <div class="metric-value"><strong>₹2,500</strong></div>
+              <p id="budget-use">Awaiting selected plan</p>
+            </article>
+            <article class="metric">
+              <div class="metric-top"><span>Carbon ceiling</span><em>SUSTAINABILITY</em></div>
+              <div class="metric-value"><strong>50</strong><small>kg CO₂e</small></div>
+              <p id="carbon-use">Constraint enforced by verifier</p>
+            </article>
+            <article class="metric agents-metric">
+              <div class="metric-top"><span>Agent mesh</span><i class="healthy">READY</i></div>
+              <div class="metric-value"><strong>5</strong><small>agents</small></div>
+              <p>Bounded roles · shared state</p>
+            </article>
+          </section>
+
+          <section class="command-grid">
+            <article class="panel network-panel">
+              <div class="panel-head">
+                <div><span class="kicker">LIVE DIGITAL TWIN</span><h2>Retail supply network</h2></div>
+                <div class="panel-tools"><span id="network-status" class="status-pill danger">DISRUPTED</span><button class="micro-button" title="Live simulated data">LIVE</button></div>
+              </div>
+              <div class="network-canvas">
+                <div class="map-grid"></div>
+                <div class="route route-east blocked" data-route="east-road"><span>18h · ₹1.4k</span></div>
+                <div class="route route-west" data-route="west-road"><span>22h · ₹1.75k</span></div>
+                <div class="route route-south" data-route="south-express"><span>23h · ₹2.2k</span></div>
+                <div class="route route-air" data-route="emergency-air"><span>8h · ₹3.8k</span></div>
+
+                <div class="map-node east disrupted" data-node="wh-east"><i></i><div><span>East Port WH</span><small>140 units · BLOCKED</small></div></div>
+                <div class="map-node west" data-node="wh-west"><i></i><div><span>West Regional</span><small>120 units · READY</small></div></div>
+                <div class="map-node south" data-node="wh-south"><i></i><div><span>South Hub</span><small>100 units · READY</small></div></div>
+                <div class="map-node central target" data-node="store-central"><i></i><div><span>Central Store</span><small id="central-stock">20 units · AT RISK</small></div></div>
+
+                <div class="map-label label-north">NORTH</div>
+                <div class="map-scale"><b></b><span>500 km</span></div>
+              </div>
+              <div class="network-footer">
+                <span><i class="legend-dot operational"></i>Operational</span>
+                <span><i class="legend-dot disrupted"></i>Disrupted</span>
+                <span><i class="legend-dot selected"></i>Selected recovery</span>
+                <strong id="network-revision">STATE REV 0</strong>
+              </div>
+            </article>
+
+            <article class="panel agents-panel">
+              <div class="panel-head">
+                <div><span class="kicker">ORCHESTRATION MESH</span><h2>Specialist agents</h2></div>
+                <span id="agents-state" class="status-pill">STANDBY</span>
+              </div>
+              <div class="agent-list">
+                <div class="agent-card" data-agent="Control Tower Orchestrator"><span class="agent-icon">CT</span><div><strong>Control Tower</strong><small>Goal & orchestration</small></div><b>Ready</b></div>
+                <div class="agent-card" data-agent="Disruption Intelligence Agent"><span class="agent-icon">DI</span><div><strong>Disruption Intel</strong><small>Observe & classify</small></div><b>Ready</b></div>
+                <div class="agent-card" data-agent="Inventory & Sourcing Agent"><span class="agent-icon">IS</span><div><strong>Inventory & Sourcing</strong><small>Generate alternatives</small></div><b>Ready</b></div>
+                <div class="agent-card" data-agent="Recovery Optimization Agent"><span class="agent-icon">RO</span><div><strong>Recovery Optimizer</strong><small>Score constraints</small></div><b>Ready</b></div>
+                <div class="agent-card" data-agent="Outcome Verification Agent"><span class="agent-icon">OV</span><div><strong>Outcome Verifier</strong><small>Evaluate & adapt</small></div><b>Ready</b></div>
+              </div>
+              <div class="run-progress">
+                <div><span>Recovery progress</span><strong id="progress-value">0%</strong></div>
+                <div class="progress-track"><i id="progress-bar"></i></div>
+              </div>
+            </article>
+
+            <article class="panel trace-panel">
+              <div class="panel-head">
+                <div><span class="kicker">EXPLAINABLE EXECUTION</span><h2>Agent decision trace</h2></div>
+                <span id="run-state" class="status-pill">WAITING</span>
+              </div>
+              <div id="trace" class="trace-stream">
+                <div class="trace-empty"><span>✦</span><strong>System ready</strong><p>Run the recovery scenario to watch five agents collaborate and adapt.</p></div>
+              </div>
+            </article>
+          </section>
+
+          <section class="panel decision-panel">
+            <div class="panel-head">
+              <div><span class="kicker">RECOVERY INTELLIGENCE</span><h2>Candidate decision matrix</h2></div>
+              <span class="model-chip">DETERMINISTIC SCORING · v0.2</span>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Alternative</th><th>Availability</th><th>Cost</th><th>ETA</th><th>Carbon</th><th>Constraint result</th><th>Score</th></tr></thead>
+                <tbody id="candidate-table"><tr><td colspan="7" class="table-empty">Loading scenario alternatives…</td></tr></tbody>
+              </table>
+            </div>
+          </section>
+
+          <section id="outcome" class="outcome-panel hidden">
+            <div class="outcome-glow"></div>
+            <div class="outcome-heading">
+              <div class="success-mark">✓</div>
+              <div><span>VERIFIED AUTONOMOUS OUTCOME</span><h2>Service recovered after live replanning</h2><p id="outcome-copy">Every operational constraint has been independently verified.</p></div>
+              <button id="export-secondary" class="button ghost">Export run report</button>
+            </div>
+            <div class="outcome-grid">
+              <div><span>Executed route</span><strong id="route">—</strong></div>
+              <div><span>Recovery cost</span><strong id="cost">—</strong></div>
+              <div><span>Delivery time</span><strong id="time">—</strong></div>
+              <div><span>Carbon impact</span><strong id="carbon">—</strong></div>
+              <div><span>Planning attempts</span><strong id="attempts">—</strong></div>
+            </div>
+            <div id="verification-checks" class="verification-checks"></div>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <div id="toast" class="toast" role="status"></div>
     <script src="/static/app.js"></script>
   </body>
 </html>
-
