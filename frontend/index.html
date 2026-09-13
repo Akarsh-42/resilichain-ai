@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ResiliChain AI Control Tower</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark">R</span><span>ResiliChain <b>AI</b></span></div>
+      <div class="status"><span class="pulse"></span> Digital twin online</div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div>
+          <p class="eyebrow">AUTONOMOUS SUPPLY CHAIN CONTROL TOWER</p>
+          <h1>Recover from disruption<br /><span>before service breaks.</span></h1>
+          <p class="subhead">Five collaborating agents observe, decide, optimize, execute, verify and replan across a live simulated retail network.</p>
+        </div>
+        <div class="hero-actions">
+          <button id="reset" class="button secondary">Reset scenario</button>
+          <button id="recover" class="button primary">Run autonomous recovery</button>
+        </div>
+      </section>
+
+      <section class="metrics">
+        <article class="metric"><span>Network status</span><strong id="network-status">Disrupted</strong><small>Live environment state</small></article>
+        <article class="metric"><span>Target service</span><strong>80 units</strong><small>SKU-AX9 within 24h</small></article>
+        <article class="metric"><span>Budget ceiling</span><strong>₹2,500</strong><small>Recovery constraint</small></article>
+        <article class="metric"><span>Carbon ceiling</span><strong>50 kg</strong><small>Sustainability constraint</small></article>
+      </section>
+
+      <section class="grid">
+        <article class="panel network-panel">
+          <div class="panel-title"><div><p>LIVE NETWORK</p><h2>Supply graph</h2></div><span class="badge danger">2 disruptions</span></div>
+          <div class="network">
+            <div class="route route-a blocked"></div>
+            <div class="route route-b"></div>
+            <div class="route route-c"></div>
+            <div class="node east"><span>East</span><small>Port closed</small></div>
+            <div class="node west"><span>West</span><small>120 available</small></div>
+            <div class="node south"><span>South</span><small>100 available</small></div>
+            <div class="node store"><span>Central</span><small>20 in stock</small></div>
+          </div>
+          <div class="legend"><span><i class="ok"></i>Operational</span><span><i class="bad"></i>Disrupted</span><span><i class="target"></i>Target</span></div>
+        </article>
+
+        <article class="panel agent-panel">
+          <div class="panel-title"><div><p>MULTI-AGENT RUN</p><h2>Decision trace</h2></div><span id="run-state" class="badge">Waiting</span></div>
+          <div id="trace" class="trace"><div class="empty">Start a recovery run to watch the agents collaborate.</div></div>
+        </article>
+      </section>
+
+      <section id="outcome" class="panel outcome hidden">
+        <div class="panel-title"><div><p>VERIFIED OUTCOME</p><h2>Recovery plan executed</h2></div><span class="badge success">Constraints passed</span></div>
+        <div class="outcome-grid">
+          <div><span>Selected route</span><strong id="route">—</strong></div>
+          <div><span>Recovery cost</span><strong id="cost">—</strong></div>
+          <div><span>Delivery time</span><strong id="time">—</strong></div>
+          <div><span>Carbon impact</span><strong id="carbon">—</strong></div>
+          <div><span>Planning attempts</span><strong id="attempts">—</strong></div>
+        </div>
+      </section>
+    </main>
+
+    <script src="/static/app.js"></script>
+  </body>
+</html>
+
