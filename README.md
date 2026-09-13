@@ -1,95 +1,89 @@
 # ResiliChain AI
 
-**A multi-agent autonomous retail supply-chain recovery control tower.**
+**A guarded multi-agent retail supply-chain recovery control tower.**
 
-ResiliChain AI is a starter implementation for Tech Zephyr 4.0's Autonomous Retail Supply Chain Recovery problem. It demonstrates the full agentic loop:
+ResiliChain AI demonstrates the complete agentic loop:
 
-`Goal → Observe → Decide → Act → Verify → Replan → Outcome`
+`Goal → Observe → Decide → LLM critique → Act → Verify → Replan → Outcome`
 
-## Why this is agentic
+## Why this is genuinely agentic
 
-- Five components have distinct, bounded responsibilities.
-- Agents inspect persistent environment state and call deterministic tools.
-- The selected action changes the digital-twin state.
+- Six agents have distinct, bounded responsibilities.
+- Agents inspect persistent digital-twin state and call deterministic tools.
+- A live LLM Risk Reasoning Agent critiques plans and explains residual risk.
+- The optimizer—not the LLM—enforces cost, SLA, inventory, and carbon constraints.
+- The selected action changes the environment state.
 - A forced carrier failure is observed at runtime.
-- The orchestrator replans instead of returning a static answer.
-- A separate verifier checks service, cost, time, carbon, and state-change constraints.
+- The orchestrator replans and independently verifies the final outcome.
 
-## Quick start
+## Run it now
 
-### Windows — easiest demo start
+### Windows
 
-Double-click `start_demo.bat`, or run:
+1. Double-click `configure_llm.bat` once and follow the two-window instructions.
+2. Paste the Groq key after `GROQ_API_KEY=` in Notepad and save.
+3. Double-click `start_demo.bat`.
+4. Open <http://127.0.0.1:8080> and click **Run live recovery**.
 
-```powershell
-.\start_demo.bat
-```
-
-Then open `http://127.0.0.1:8080`.
+The dashboard must show **LIVE LLM · openai/gpt-oss-20b** before recording the
+LLM-enabled demo. If the key is missing or the API is unavailable, the workflow
+still completes safely and displays **LLM FALLBACK** honestly.
 
 ### macOS / Linux
 
 ```bash
+cp .env.example .env
+# Add GROQ_API_KEY to .env
 chmod +x start_demo.sh
 ./start_demo.sh
 ```
 
-Open `http://127.0.0.1:8080` and click **Run live recovery**. No API key is
-required for the included deterministic multi-agent demonstration.
+## Share instantly without cloud deployment
 
-### Docker
+Keep the local server running, install `cloudflared`, then run:
 
 ```bash
-docker compose up --build
+cloudflared tunnel --url http://127.0.0.1:8080
 ```
 
-For the exact demo flow, troubleshooting, and Cloud Run deployment commands, see
-[`docs/DEMO_AND_DEPLOY.md`](docs/DEMO_AND_DEPLOY.md).
+On Windows, double-click `share_demo.bat`. Share the generated
+`https://...trycloudflare.com` URL. No Cloudflare account, domain, or billing
+setup is required for this temporary demo tunnel.
+
+## Free public deployment on Render
+
+[Deploy to Render](https://render.com/deploy?repo=https://github.com/Akarsh-42/resilichain-ai)
+
+The included `render.yaml` configures the service. One teammate connects the
+GitHub repository, selects the free plan, enters `GROQ_API_KEY` as a secret, and
+deploys. Everyone else only needs the resulting public URL.
+
+See [`docs/DEMO_AND_DEPLOY.md`](docs/DEMO_AND_DEPLOY.md) for the exact walkthrough.
 
 ## API
 
 - `GET /api/health`
+- `GET /api/config` — exposes model name and whether live LLM mode is enabled
 - `GET /api/scenarios/port-closure-001`
 - `POST /api/scenarios/port-closure-001/reset`
 - `POST /api/scenarios/port-closure-001/recover`
-- `GET /docs` for interactive OpenAPI documentation
+- `GET /docs` — interactive OpenAPI documentation
 
 ## Test
 
 ```bash
-pytest -q
+python -m pytest -q
 ```
-
-Tests verify that the orchestrator observes an execution-time carrier failure, replans, selects a different feasible route, persists the new state, and passes every objective constraint.
-
-## Team collaboration
-
-See [`docs/GITHUB_COLLABORATION.md`](docs/GITHUB_COLLABORATION.md) for the repository setup,
-collaborator invitation, branch, commit, pull-request, and merge workflow.
 
 ## Repository structure
 
 ```text
-backend/app/       Digital twin, agents, orchestration and API
+backend/app/       Digital twin, six agents, orchestration, LLM adapter and API
 frontend/          Premium control-tower operations dashboard
-tests/             Adaptation, constraint and persistence tests
-docs/              Product and architecture documentation
+tests/             Adaptation, constraints, LLM and persistence tests
+docs/              Product, architecture and demo documentation
 .github/workflows/ Continuous integration
 ```
 
-## Next implementation milestones
-
-1. Replace weighted enumeration with Google OR-Tools.
-2. Add OpenAI Agents SDK orchestration and GPT decision explanations.
-3. Add demand, vendor, inventory and shipment event simulators.
-4. Introduce human approval for purchases and vendor commitments.
-5. Migrate production state, authentication, audit events and live updates to Supabase.
-6. Add n8n webhooks for event ingestion and approved notifications.
-7. Deploy the container to Cloud Run.
-8. Build an evaluation set with at least 30 disruption scenarios.
-
-The current starter is deliberately deterministic and does not require an API key. The
-five roles are real, separate Python components with bounded responsibilities; model-backed
-reasoning is the next implementation phase, not a mocked claim in this release.
-
-Never commit secrets. Use `.env.example` as the configuration template.
+Never commit `.env`, API keys, passwords, or tokens. The repository contains only
+`.env.example`; deployment secrets remain in Render's environment settings.

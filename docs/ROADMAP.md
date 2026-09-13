@@ -3,7 +3,7 @@
 ## Phase 0 — completed starter
 
 - Synthetic supply-chain digital twin
-- Five bounded agent roles
+- Six bounded agent roles, including a live LLM risk reasoner
 - Persistent SQLite task state
 - Cost/time/carbon constraint scoring
 - Runtime carrier-failure injection
@@ -11,7 +11,8 @@
 - FastAPI endpoints
 - Premium static control-tower dashboard
 - Docker and CI configuration
-- Adaptation, constraint, and persistence tests
+- Free Render Blueprint and Cloudflare Quick Tunnel sharing
+- Adaptation, constraint, LLM, and persistence tests
 
 ## Phase 1 — credible environment
 
@@ -31,10 +32,10 @@
 
 **Exit test:** every selected plan is independently constraint-checked and compared with a baseline.
 
-## Phase 3 — model-backed multi-agent reasoning
+## Phase 3 — model-backed multi-agent reasoning (started)
 
-- Implement the workflow with the OpenAI Agents SDK and explicit agent handoffs.
-- Use GPT for event interpretation, evidence requests, plan explanations, and exception handling.
+- Extend the live GPT-OSS reasoning agent with typed tool calls and explicit handoffs.
+- Use the model for event interpretation, evidence requests, plan explanations, and exception handling.
 - Keep typed Pydantic contracts between agents.
 - Add confidence thresholds, bounded retries, and human approval for purchases or supplier commitments.
 
@@ -53,7 +54,7 @@
 
 - Use n8n only for disruption webhooks, scheduled monitoring, and approved email/Slack notifications.
 - Use Supabase PostgreSQL for durable state, Auth, audit events, Storage, and dashboard updates.
-- Deploy the API/agent service to Cloud Run.
+- Deploy the API/agent service to Render's free web-service tier.
 - Add structured logs, traces, health checks, secrets management, and GitHub Actions deployment.
 - Maintain a local Docker fallback for live judging.
 

@@ -4,6 +4,7 @@ from uuid import uuid4
 
 from .agents import (
     DisruptionIntelligenceAgent,
+    LLMReasoningAgent,
     OptimizationAgent,
     SourcingAgent,
     VerificationAgent,
@@ -20,6 +21,7 @@ class ControlTowerOrchestrator:
         self.disruption_agent = DisruptionIntelligenceAgent()
         self.sourcing_agent = SourcingAgent()
         self.optimization_agent = OptimizationAgent()
+        self.reasoning_agent = LLMReasoningAgent()
         self.verification_agent = VerificationAgent()
 
     def recover(self, scenario_id: str, maximum_attempts: int = 3) -> RecoveryRun:
@@ -86,6 +88,19 @@ class ControlTowerOrchestrator:
                 plan.model_dump(),
             )
 
+            critique = self.reasoning_agent.critique(
+                state=state,
+                candidates=candidates,
+                plan=plan,
+                attempt=attempt,
+            )
+            trace(
+                self.reasoning_agent.name,
+                "reason_about_plan",
+                critique["analysis"],
+                critique,
+            )
+
             executed, state, message = self.environment.execute(scenario_id, plan)
             trace(self.name, "execute_action", message, {"route_id": plan.route_id})
 
@@ -130,4 +145,3 @@ class ControlTowerOrchestrator:
             traces=traces,
             state=state,
         )
-

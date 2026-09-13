@@ -2,6 +2,11 @@
 setlocal
 cd /d "%~dp0"
 
+if not exist ".env" (
+  copy /y ".env.example" ".env" >nul
+  echo [ResiliChain] Created .env. Run configure_llm.bat to enable the live LLM.
+)
+
 where py >nul 2>&1
 if %errorlevel% equ 0 (
   set "PYTHON_CMD=py"

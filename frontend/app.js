@@ -4,6 +4,7 @@ const ui = {
   recover: document.querySelector("#recover"),
   reset: document.querySelector("#reset"),
   export: document.querySelector("#export"),
+  llmStatus: document.querySelector("#llm-status"),
   exportSecondary: document.querySelector("#export-secondary"),
   trace: document.querySelector("#trace"),
   runState: document.querySelector("#run-state"),
@@ -67,6 +68,12 @@ function setProgress(value) {
   const safe = Math.max(0, Math.min(100, Math.round(value)));
   ui.progressBar.style.width = `${safe}%`;
   ui.progressValue.textContent = `${safe}%`;
+}
+
+function setLLMStatus(enabled, model = "openai/gpt-oss-20b") {
+  ui.llmStatus.classList.toggle("llm-live", enabled);
+  ui.llmStatus.classList.toggle("llm-off", !enabled);
+  ui.llmStatus.innerHTML = `<i></i> ${enabled ? `LIVE LLM · ${escapeHtml(model)}` : "LLM FALLBACK · CHECK KEY"}`;
 }
 
 function resetAgents() {
@@ -219,6 +226,10 @@ function showTrace(trace, total) {
     renderCandidateTable(latestCandidates);
   }
 
+  if (trace.action === "reason_about_plan") {
+    setLLMStatus(trace.evidence.llm_used === true, trace.evidence.model);
+  }
+
   if (trace.action === "select_plan") {
     latestCandidates = latestCandidates.map((candidate) =>
       candidate.route_id === trace.evidence.route_id
@@ -257,7 +268,8 @@ function renderOutcome(result) {
   ui.budgetUse.textContent = `${Math.round((plan.expected_cost / result.state.constraints.maximum_cost) * 100)}% used · ${money(result.state.constraints.maximum_cost - plan.expected_cost)} buffer`;
   ui.carbonUse.textContent = `${Math.round((plan.expected_carbon_kg / result.state.constraints.maximum_carbon_kg) * 100)}% used · ${result.state.constraints.maximum_carbon_kg - plan.expected_carbon_kg} kg buffer`;
   ui.riskScore.textContent = "18";
-  ui.responseMode.textContent = "Autonomous · adapted";
+  const liveLLM = result.traces.some((trace) => trace.evidence?.llm_used === true);
+  ui.responseMode.textContent = liveLLM ? "Autonomous · live LLM" : "Autonomous · guarded fallback";
   renderScenario(result.state, plan.route_id, false);
   renderCandidateTable(latestCandidates, plan.route_id);
   setPill(ui.networkStatus, "RECOVERED", "success");
@@ -284,7 +296,7 @@ async function resetScenario({ quiet = false } = {}) {
     const state = await response.json();
     latestRun = null;
     slaSeconds = 24 * 60 * 60;
-    ui.trace.innerHTML = '<div class="trace-empty"><span>✦</span><strong>System ready</strong><p>Run the recovery scenario to watch five agents collaborate and adapt.</p></div>';
+    ui.trace.innerHTML = '<div class="trace-empty"><span>✦</span><strong>System ready</strong><p>Run the recovery scenario to watch six agents collaborate and adapt.</p></div>';
     ui.outcome.classList.add("hidden");
     ui.export.disabled = true;
     ui.riskScore.textContent = "87";
@@ -373,8 +385,14 @@ async function boot() {
   updateTime();
   setInterval(updateTime, 1000);
   try {
-    const health = await fetch("/api/health");
-    if (!health.ok) throw new Error("Backend unavailable");
+    const [health, configResponse] = await Promise.all([
+      fetch("/api/health"),
+      fetch("/api/config"),
+    ]);
+    if (!health.ok || !configResponse.ok) throw new Error("Backend unavailable");
+    const config = await configResponse.json();
+    const llm = config.llm;
+    setLLMStatus(llm.enabled, llm.model);
     await resetScenario({ quiet: true });
   } catch (error) {
     setPill(ui.runState, "OFFLINE", "danger");

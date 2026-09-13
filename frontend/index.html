@@ -43,6 +43,7 @@
             <span class="product-divider"></span><span class="product-name">Control Tower</span>
           </div>
           <div class="topbar-right">
+            <span id="llm-status" class="environment llm-off"><i></i> LLM FALLBACK</span>
             <span class="environment"><i></i> DIGITAL TWIN ONLINE</span>
             <span id="clock" class="clock">--:--:-- UTC</span>
             <button id="export" class="icon-button" title="Export latest run" aria-label="Export latest run" disabled>
@@ -98,8 +99,8 @@
             </article>
             <article class="metric agents-metric">
               <div class="metric-top"><span>Agent mesh</span><i class="healthy">READY</i></div>
-              <div class="metric-value"><strong>5</strong><small>agents</small></div>
-              <p>Bounded roles · shared state</p>
+              <div class="metric-value"><strong>6</strong><small>agents</small></div>
+              <p>LLM reasoning · bounded roles</p>
             </article>
           </section>
 
@@ -142,6 +143,7 @@
                 <div class="agent-card" data-agent="Disruption Intelligence Agent"><span class="agent-icon">DI</span><div><strong>Disruption Intel</strong><small>Observe & classify</small></div><b>Ready</b></div>
                 <div class="agent-card" data-agent="Inventory & Sourcing Agent"><span class="agent-icon">IS</span><div><strong>Inventory & Sourcing</strong><small>Generate alternatives</small></div><b>Ready</b></div>
                 <div class="agent-card" data-agent="Recovery Optimization Agent"><span class="agent-icon">RO</span><div><strong>Recovery Optimizer</strong><small>Score constraints</small></div><b>Ready</b></div>
+                <div class="agent-card" data-agent="LLM Risk Reasoning Agent"><span class="agent-icon">LR</span><div><strong>LLM Risk Reasoner</strong><small>Critique & explain plan</small></div><b>Ready</b></div>
                 <div class="agent-card" data-agent="Outcome Verification Agent"><span class="agent-icon">OV</span><div><strong>Outcome Verifier</strong><small>Evaluate & adapt</small></div><b>Ready</b></div>
               </div>
               <div class="run-progress">
@@ -156,7 +158,7 @@
                 <span id="run-state" class="status-pill">WAITING</span>
               </div>
               <div id="trace" class="trace-stream">
-                <div class="trace-empty"><span>✦</span><strong>System ready</strong><p>Run the recovery scenario to watch five agents collaborate and adapt.</p></div>
+                <div class="trace-empty"><span>✦</span><strong>System ready</strong><p>Run the recovery scenario to watch six agents collaborate and adapt.</p></div>
               </div>
             </article>
           </section>
@@ -164,7 +166,7 @@
           <section class="panel decision-panel">
             <div class="panel-head">
               <div><span class="kicker">RECOVERY INTELLIGENCE</span><h2>Candidate decision matrix</h2></div>
-              <span class="model-chip">DETERMINISTIC SCORING · v0.2</span>
+              <span class="model-chip">GUARDED LLM + DETERMINISTIC OPTIMIZER · v0.3</span>
             </div>
             <div class="table-wrap">
               <table>

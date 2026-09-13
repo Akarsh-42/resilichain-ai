@@ -4,11 +4,14 @@ from pathlib import Path
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
+from dotenv import load_dotenv
 
 from .environment import SupplyChainEnvironment
 from .orchestrator import ControlTowerOrchestrator
 from .store import StateStore
 
+
+load_dotenv()
 
 DATABASE_PATH = os.getenv("RESILICHAIN_DATABASE", "resilichain.db")
 store = StateStore(DATABASE_PATH)
@@ -17,14 +20,29 @@ orchestrator = ControlTowerOrchestrator(environment)
 
 app = FastAPI(
     title="ResiliChain AI",
-    version="0.2.0",
+    version="0.3.0",
     description="Multi-agent autonomous retail supply-chain recovery control tower.",
 )
 
 
 @app.get("/api/health")
 def health() -> dict:
-    return {"status": "ok", "service": "resilichain-ai"}
+    return {
+        "status": "ok",
+        "service": "resilichain-ai",
+        "llm_enabled": orchestrator.reasoning_agent.enabled,
+    }
+
+
+@app.get("/api/config")
+def public_config() -> dict:
+    return {
+        "llm": {
+            "enabled": orchestrator.reasoning_agent.enabled,
+            "provider": orchestrator.reasoning_agent.provider,
+            "model": orchestrator.reasoning_agent.model,
+        }
+    }
 
 
 @app.post("/api/scenarios/{scenario_id}/reset")

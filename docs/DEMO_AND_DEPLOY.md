@@ -1,101 +1,115 @@
-# Demo and deployment guide
+# Live LLM demo and easy deployment
 
-This guide gets the complete ResiliChain AI demonstration running without an API
-key. The included scenario is deterministic so the live demo remains reliable.
+## Important model choice
 
-## What the live demo proves
+ChatGPT Plus and the OpenAI API are separate products, so Plus does not provide
+an API key for this backend. ResiliChain therefore uses Groq's OpenAI-compatible
+API with the production model `openai/gpt-oss-20b`.
 
-The five specialist agents execute a real state-changing workflow:
+The architecture is deliberately guarded:
 
-1. The **Observer Agent** reads the digital twin and detects the east route closure.
-2. The **Candidate Agent** constructs and validates recovery options.
-3. The **Optimizer Agent** selects the west-road plan against cost, SLA, carbon,
-   inventory, and service constraints.
-4. The **Execution Agent** calls the carrier tool. A forced carrier failure occurs.
-5. The **Orchestrator** observes the failure and requests a new plan.
-6. The agents select and dispatch the south-express route.
-7. The **Verifier Agent** independently checks the persisted result.
+- The LLM Risk Reasoning Agent critiques and explains a selected plan.
+- Deterministic agents enforce hard constraints and execute tools.
+- If the model times out, the workflow continues with an explicit fallback.
+- The dashboard always labels whether a real LLM response was used.
 
-This demonstrates `Goal → Observe → Decide → Act → Evaluate → Adapt → Outcome`.
+## Configure the live LLM
 
-## Run now on Windows
+On Windows, double-click `configure_llm.bat`. It opens both the Groq API-key
+page and the correct local `.env` file in Notepad. Paste the key after
+`GROQ_API_KEY=`, save, and close Notepad.
 
-Prerequisite: install Python 3.11 or newer and make sure `py` or `python` works in
-Command Prompt.
+The equivalent manual configuration is:
 
-From File Explorer, double-click `start_demo.bat`. Or open PowerShell in the
-project folder and run:
+```dotenv
+GROQ_API_KEY=paste_your_key_here
+LLM_MODEL=openai/gpt-oss-20b
+```
+
+Do not send the key to teammates and never commit `.env`.
+
+## Run on Windows
+
+Double-click `start_demo.bat`, or run:
 
 ```powershell
 .\start_demo.bat
 ```
 
-Open `http://127.0.0.1:8080`. The first launch can take a minute while Python
-packages are installed.
+Open <http://127.0.0.1:8080>. Confirm the top-right badge says **LIVE LLM**.
+The first launch can take a minute while dependencies install.
 
-## Run on macOS or Linux
+## What the judge will see
 
-```bash
-chmod +x start_demo.sh
-./start_demo.sh
-```
+1. The Disruption Intelligence Agent observes the east-port closure.
+2. The Inventory & Sourcing Agent builds four recovery candidates.
+3. The Recovery Optimization Agent selects the best feasible route.
+4. The LLM Risk Reasoning Agent critiques the plan using live model inference.
+5. The first carrier call fails at runtime.
+6. The Control Tower Orchestrator observes the failure and replans.
+7. The new route executes and changes inventory in the digital twin.
+8. The Outcome Verification Agent independently checks five constraints.
 
-Open `http://127.0.0.1:8080`.
+Open **Inspect evidence** under the LLM trace. It shows `llm_used: true`, the
+provider, and the exact model ID. That is proof that a live LLM participated.
 
-## Demo script for the judges
+## Option A — instant public link, no cloud account
 
-1. Point out the P1 disruption, five agents, live route map, and constraints.
-2. Click **Run live recovery**.
-3. Explain the first decision while the trace shows the west-road selection.
-4. Highlight the simulated carrier rejection and automatic replanning.
-5. Show south-express selected in the decision matrix.
-6. Finish on the verified outcome and open one evidence panel in the trace.
-7. Optionally click **Export run** to download the auditable JSON evidence.
+This is best for an immediate teammate review or live judging session.
 
-Use **Reset scenario** before repeating the demo. Press `R` as a keyboard shortcut
-to start a recovery run.
-
-## Run with Docker
+1. Keep `start_demo.bat` running.
+2. Install `cloudflared` from the official Cloudflare download page.
+3. Double-click `share_demo.bat`, or run:
 
 ```bash
-docker compose up --build
+cloudflared tunnel --url http://127.0.0.1:8080
 ```
 
-Open `http://127.0.0.1:8080`. Stop it with `Ctrl+C`.
+4. Share the printed `https://...trycloudflare.com` address.
 
-## Deploy to Google Cloud Run
+The link works only while both terminal windows and your laptop remain online.
+It is a temporary testing tunnel, not permanent hosting.
 
-The repository contains a production-compatible `Dockerfile`. Install the Google
-Cloud CLI, enable billing for a project, then run these commands from the project
-folder:
+## Option B — free public Render deployment
 
-```bash
-gcloud auth login
-gcloud config set project YOUR_PROJECT_ID
-gcloud services enable run.googleapis.com cloudbuild.googleapis.com artifactregistry.googleapis.com
-gcloud run deploy resilichain-ai --source . --region asia-south1 --allow-unauthenticated
-```
+Open:
 
-Choose `Y` if the CLI asks to enable an API. When deployment completes, the CLI
-prints the public HTTPS URL. The `--source .` command uses the included Dockerfile.
+<https://render.com/deploy?repo=https://github.com/Akarsh-42/resilichain-ai>
 
-For this hackathon demo, SQLite lives in the container filesystem. Cloud Run's
-container filesystem is ephemeral, so a new instance can begin with a fresh demo
-state. That is acceptable for the resettable demonstration. Use Supabase/Postgres
-before relying on durable production data.
+Then:
 
-## Fast troubleshooting
+1. Sign in to Render using GitHub.
+2. Connect `Akarsh-42/resilichain-ai`.
+3. Render reads the included `render.yaml`.
+4. Choose the **Free** instance.
+5. Paste the Groq key into the requested `GROQ_API_KEY` secret field.
+6. Click **Deploy Blueprint**.
+7. Share the resulting `https://resilichain-ai-....onrender.com` URL.
+
+Only the repository owner/deployer needs a Render account. Friends and judges
+simply open the public URL.
+
+Free Render services can sleep after inactivity, so open the URL a few minutes
+before presenting. The SQLite demo state is intentionally resettable and may be
+cleared when a free instance restarts.
+
+## Demo narration
+
+> ResiliChain is a six-agent control tower, not a chatbot. The deterministic
+> agents observe state, generate candidates, optimize constraints, execute tools,
+> and verify outcomes. A live GPT-OSS reasoning agent critiques each operational
+> plan. When the selected carrier unexpectedly fails, the orchestrator observes
+> the changed environment and replans to a new feasible route.
+
+## Troubleshooting
 
 | Symptom | Fix |
 | --- | --- |
+| Badge says `LLM FALLBACK` | Confirm `.env` exists, the Groq key is correct, then restart the server. |
 | `python` or `py` not found | Install Python 3.11+ and enable “Add Python to PATH”. |
-| Port 8080 already in use | Stop the old server, or change `--port 8080` to `--port 8081`. |
-| Blank/stale dashboard | Hard refresh with `Ctrl+Shift+R`. |
-| Demo already completed | Click **Reset scenario**, then run it again. |
-| Cloud deploy permission error | Confirm billing, project ownership, and Cloud Run/Cloud Build roles. |
+| Port 8080 already in use | Stop the old server or change the launcher to port 8081. |
+| Render loads slowly | Free services sleep; visit the URL several minutes before judging. |
+| Tunnel command not found | Install `cloudflared`, reopen Command Prompt, and retry. |
+| Scenario already completed | Click **Reset scenario** before another run. |
 
-## Health checks
-
-- Dashboard: `http://127.0.0.1:8080`
-- API health: `http://127.0.0.1:8080/api/health`
-- Interactive API docs: `http://127.0.0.1:8080/docs`
+Health endpoints: `/api/health`, `/api/config`, and `/docs`.
