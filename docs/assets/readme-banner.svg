@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="360" viewBox="0 0 1280 360" role="img" aria-labelledby="title desc">
+  <title id="title">ResiliChain AI</title>
+  <desc id="desc">Autonomous retail supply-chain recovery control tower with adaptive routing</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#06100d"/>
+      <stop offset="0.55" stop-color="#0a1b16"/>
+      <stop offset="1" stop-color="#0b2720"/>
+    </linearGradient>
+    <linearGradient id="route" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#5fdbff"/>
+      <stop offset="0.58" stop-color="#83f6bd"/>
+      <stop offset="1" stop-color="#35e6a0"/>
+    </linearGradient>
+    <radialGradient id="glow">
+      <stop offset="0" stop-color="#83f6bd" stop-opacity="0.32"/>
+      <stop offset="1" stop-color="#83f6bd" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="7" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M 32 0 L 0 0 0 32" fill="none" stroke="#234139" stroke-width="1" opacity="0.24"/>
+    </pattern>
+  </defs>
+
+  <rect width="1280" height="360" rx="28" fill="url(#bg)"/>
+  <rect width="1280" height="360" rx="28" fill="url(#grid)"/>
+  <circle cx="1000" cy="180" r="250" fill="url(#glow)"/>
+
+  <g transform="translate(72 69)">
+    <rect width="164" height="30" rx="15" fill="#10251e" stroke="#83f6bd" stroke-width="1"/>
+    <circle cx="17" cy="15" r="5" fill="#83f6bd"/>
+    <text x="32" y="20" fill="#83f6bd" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="12" font-weight="700" letter-spacing="1.4">AGENTIC CONTROL</text>
+    <text x="0" y="101" fill="#f4fbf7" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="54" font-weight="750" letter-spacing="-1.5">ResiliChain AI</text>
+    <text x="2" y="144" fill="#c6d8d0" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="22">Autonomous retail supply-chain recovery control tower</text>
+    <text x="2" y="190" fill="#839b91" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="14" font-weight="600" letter-spacing="1">OBSERVE  ·  DECIDE  ·  ACT  ·  VERIFY  ·  ADAPT</text>
+  </g>
+
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M736 255 C816 255 813 93 900 93 C988 93 967 205 1050 205 C1118 205 1147 139 1212 139" stroke="#153b31" stroke-width="14" opacity="0.45"/>
+    <path d="M736 255 C816 255 813 93 900 93 C988 93 967 205 1050 205 C1118 205 1147 139 1212 139" stroke="url(#route)" stroke-width="3.5" filter="url(#softGlow)"/>
+    <path d="M900 93 C973 22 1082 35 1124 86" stroke="#ffb54a" stroke-width="2.5" stroke-dasharray="7 10" opacity="0.9"/>
+  </g>
+
+  <g font-family="Inter,Segoe UI,Arial,sans-serif" text-anchor="middle">
+    <g transform="translate(736 255)"><circle r="25" fill="#0c211a" stroke="#5fdbff" stroke-width="2"/><circle r="7" fill="#5fdbff"/><text y="48" fill="#839b91" font-size="11">SIGNAL</text></g>
+    <g transform="translate(900 93)"><circle r="31" fill="#103126" stroke="#83f6bd" stroke-width="2.5" filter="url(#softGlow)"/><path d="M-11 3 L-2 12 L14 -10" fill="none" stroke="#83f6bd" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><text y="55" fill="#83f6bd" font-size="11" font-weight="700">DECIDE</text></g>
+    <g transform="translate(1050 205)"><circle r="25" fill="#0c211a" stroke="#83f6bd" stroke-width="2"/><circle r="7" fill="#83f6bd"/><text y="48" fill="#839b91" font-size="11">EXECUTE</text></g>
+    <g transform="translate(1212 139)"><circle r="25" fill="#0c211a" stroke="#83f6bd" stroke-width="2"/><circle r="7" fill="#83f6bd"/><text y="48" fill="#839b91" font-size="11">VERIFY</text></g>
+    <g transform="translate(1124 86)"><circle r="20" fill="#2d1d11" stroke="#ffb54a" stroke-width="2"/><path d="M0 -8 L9 8 H-9 Z" fill="none" stroke="#ffb54a" stroke-width="2"/><line x1="0" y1="-2" x2="0" y2="3" stroke="#ffb54a" stroke-width="2"/><circle cy="6" r="1.3" fill="#ffb54a"/><text y="40" fill="#ffb54a" font-size="11" font-weight="700">DISRUPTION</text></g>
+  </g>
+
+  <g transform="translate(1010 284)">
+    <rect width="214" height="36" rx="18" fill="#10251e" stroke="#2a5547"/>
+    <text x="107" y="23" text-anchor="middle" fill="#c6d8d0" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="12" font-weight="700">SIX-AGENT RECOVERY LOOP</text>
+  </g>
+</svg>
